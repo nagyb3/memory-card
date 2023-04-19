@@ -8,6 +8,8 @@ import mosquito from "./images/mosquito.png"
 import rhino from "./images/rhino.png"
 import snake from "./images/snake.png"
 import zebra from "./images/zebra.png"
+import "./App.css"
+import {compareArraysAsSet} from "@testing-library/jest-dom/dist/utils";
 
 function App() {
     const [currentScore, setCurrentScore] = React.useState(0);
@@ -17,10 +19,57 @@ function App() {
     const [cardTouch, setCardTouch] = React.useState([false, false, false, false,
         false, false, false, false, false])
 
-    const images = [fox, elephant, horse, koala, mosquito, rhino, snake, zebra]
+    const images = [{index: 0, image: fox},
+        {index: 1, image: elephant},
+        {index: 2, image: koala},
+        {index: 3, image: mosquito},
+        {index: 4, image: rhino},
+        {index: 5, image: snake},
+        {index: 6, image: zebra},
+        {index: 7, image: horse}]
+
+    function shuffle(array) {
+        let newarr = [];
+        let n = array.length;
+        let i;
+
+        while(n) {
+            i = Math.floor(Math.random() * array.length)
+
+            if (i in array) {
+                newarr.push(array[i]);
+                delete array[i];
+                n--;
+            }
+        }
+        return newarr
+    }
+
+    function handleClick(index) {
+        console.log(index)
+        if (cardTouch[index] === false) {  //user clicked on good card
+            let newarr = [];
+            for (let i = 0; i < cardTouch.length; i++) {
+                if (i !== index) {
+                    newarr.push(cardTouch[i])
+                } else {
+                    newarr.push(true)
+                }
+            }
+            setCardTouch(newarr) //update state
+            setCurrentScore(prevState => (prevState + 1)) //set current score
+            if (currentScore > highscore) { //change highscore if its one
+                setHighscore(currentScore)
+            }
+        } else { //user clicked on bad card
+            setCurrentScore(0)              //reset score
+            setCardTouch([false, false, false, false, false, false, false, false, false]) //set state
+        }
+    }
 
     function renderCards() {
-        return images.map(name => <Card image={name}/>)
+        let shuffledImages = shuffle(images)
+        return shuffledImages.map((arrayElement, i) => <Card handleClick={handleClick} key={i} index={arrayElement.index} name={arrayElement.image} handleClass="card" image={arrayElement.image}/>)
     }
 
     return (
@@ -30,9 +79,11 @@ function App() {
                 <p>highscore: {highscore}</p>
                 <hr/>
             </header>
-            <div className="container">
-                {renderCards()}
-            </div>
+            <main>
+                <div className="container">
+                    {renderCards()}
+                </div>
+            </main>
         </div>
     );
 }
