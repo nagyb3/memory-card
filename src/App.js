@@ -58,14 +58,16 @@ function App() {
             }
             setCardTouch(newarr) //update state
             setCurrentScore(prevState => (prevState + 1)) //set current score
-            if (currentScore > highscore) { //change highscore if its one
-                setHighscore(currentScore)
-            }
         } else { //user clicked on bad card
             setCurrentScore(0)              //reset score
             setCardTouch([false, false, false, false, false, false, false, false, false]) //set state
         }
     }
+
+    if (currentScore > highscore) {
+        setHighscore(currentScore)
+    }
+    // console.log(currentScore, highscore)
 
     function renderCards() {
         let shuffledImages = shuffle(images)
