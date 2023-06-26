@@ -35,4 +35,12 @@ main {
     padding: 20px;
 }
 
-/*200 * 4 = 800 width*/
+.header-container {
+    justify-content: space-between;
+    display: flex;
+}
+
+p.instructions {
+    line-height: 1.5rem;
+    max-width: 50vw;
+}

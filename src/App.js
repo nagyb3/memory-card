@@ -77,8 +77,13 @@ function App() {
     return (
         <div>
             <header>
-                <p>current score: {currentScore}</p>
-                <p>highscore: {highscore}</p>
+                <div className="header-container">
+                    <div>
+                        <p>current score: {currentScore}</p>
+                        <p>highscore: {highscore}</p>
+                    </div>
+                    <p className="instructions">Intructions: you get a point if you click an icon that hasn't been clicked yet in this round! If you clicked one that has been already clicked, the round ends and your score resets!</p>
+                </div>
                 <hr/>
             </header>
             <main>
